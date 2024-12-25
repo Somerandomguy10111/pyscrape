@@ -1,12 +1,10 @@
 [project]
-name = "myproject"
+name = "pyscrape"
 version = "0.1.0"
 authors = [{name = "Daniel Hollarek", email = "daniel.hollarek@googlemail.com"}]
 description = "A very good project indeed"
 readme = "readme.md"
 dependencies = ['selenium','beautifulsoup4','func_timeout', 'holytools', 'psutils']
-#dependencies = ["holytools @ git+https://github.com/Somerandomguy10111/holytools"]
-#dependencies = ["holytools @ git+ssh://git@github.com/Somerandomguy10111/holytools", pkg2, pkg3]
 
 [tool.setuptools.packages.find]
-include = ["myproject"]   # Only discover in myproject folder
+include = ["pyscrape"]

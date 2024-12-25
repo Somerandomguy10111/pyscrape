@@ -1,5 +1,5 @@
 from __future__ import annotations
-from web import SiteVisitor
+from pyscrape import SiteVisitor
 from holytools.devtools import Unittest
 import psutil
 
