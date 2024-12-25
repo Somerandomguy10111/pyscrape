@@ -1,5 +1,5 @@
 from __future__ import annotations
-from holytools.web import SiteVisitor
+from web import SiteVisitor
 from holytools.devtools import Unittest
 import psutil
 
@@ -9,7 +9,7 @@ class VisitorTester(Unittest):
         cls.visitor = SiteVisitor(headless=True)
         cls.beavers_url = 'https://en.wikipedia.org/wiki/Beaver'
         cls.invalid_url = 'https://asldkfjskdjdkkkkkk'
-        cls.openai_docs = 'https://platform.openai.com/docs/introduction'
+        cls.browser_required_url = 'https://leetcode.com/problemset/'
         cls.models_docs = 'https://platform.openai.com/docs/models'
 
     def test_driver(self):
@@ -33,9 +33,9 @@ class VisitorTester(Unittest):
             self.skipTest(reason=f'Testing javascript requires not headless')
 
         visitor = SiteVisitor(headless=False)
-        text_content = visitor.get_text(url=self.openai_docs)
-        print(f'openai text content : {text_content}')
-        self.assertTrue(len(text_content) > 200)
+        response_text = visitor.get_text(url=self.browser_required_url)
+        print(f'Js required text content : {response_text}')
+        self.assertNotIn(f'Verifying you are human', response_text)
 
     def test_z_cleanup(self):
         self.visitor.quit()
