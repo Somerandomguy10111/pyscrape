@@ -1,7 +1,9 @@
 from __future__ import annotations
-from pyscrape import SiteVisitor
 from holytools.devtools import Unittest
 import psutil
+
+from pyscrape.site import SiteVisitor
+
 
 class VisitorTester(Unittest):
     @classmethod
