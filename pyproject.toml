@@ -7,5 +7,5 @@ readme = "readme.md"
 dependencies = ['selenium','beautifulsoup4','func_timeout', 'requests']
 
 [tool.setuptools.packages.find]
-include = ["pyscrape"]
+include = ["pyscrape*"]
 
