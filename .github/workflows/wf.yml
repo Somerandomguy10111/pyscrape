@@ -1,0 +1,10 @@
+name: Workflows
+
+on:
+  push:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  StdPyTests:
+    uses: Somerandomguy10111/actions/.github/workflows/stdpy.yml@main
