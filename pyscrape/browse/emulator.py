@@ -38,7 +38,14 @@ class BrowserEmulator:
         if only_displayed:
             html_code = ''
             elements = self.driver.find_elements(By.XPATH, "//*")
-            # top_hidden_elements = [element for element in elements if is_hidden(element)]
+            result = self.driver.execute_script("""
+                var result = [];
+                var all = document.getElementsByTagName('*');
+                for (var i = 0, max = all.length; i < max; i++) {
+                    result.push({'tag': all[i].tagName, 'class': all[i].getAttribute('class')});
+                }
+                return result;
+            """)
             for e in elements:
                 html_code += e.get_attribute('outerHTML')
         else:
