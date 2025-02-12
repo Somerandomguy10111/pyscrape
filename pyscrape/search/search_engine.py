@@ -19,8 +19,8 @@ class SearchResult:
 
 
 class SearchEngine:
-    def __init__(self,google_key : str, searchengine_id : str):
-        self._GOOGLE_API_KEY : str = google_key
+    def __init__(self, google_api_key : str, searchengine_id : str):
+        self._GOOGLE_API_KEY : str = google_api_key
         self._SEARCHENGINE_ID : str = searchengine_id
 
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 from holytools.devtools import Unittest
 import psutil
 
-from pyscrape.site import SiteVisitor
+from pyscrape.visit import SiteVisitor
 
 
 class VisitorTester(Unittest):

@@ -32,10 +32,8 @@ class SiteVisitor:
         self.driver = webdriver.Chrome(options=chrome_options)
         self.last_url : Optional[str] = None
 
-
     def get_mail_addresses(self, url : str) -> list[str]:
         return get_mail_addresses_in_text(text=self.get_html(url=url))
-
 
     def get_text(self, url: str, with_links : bool = False) -> str:
         def do_extract_text() -> str:
@@ -43,7 +41,6 @@ class SiteVisitor:
         page_html = self.get_html(url=url)
         site_text = func_timeout(timeout=SiteVisitor.max_site_loading_time, func=do_extract_text)
         return site_text
-
 
     def get_html(self, url: str) -> str:
         try:
@@ -56,6 +53,16 @@ class SiteVisitor:
         return result
 
     @staticmethod
+    def site_exists(url : str, verbose : bool = False) -> bool:
+        try:
+            requests.get(url, timeout=10)
+            return True
+        except requests.exceptions.RequestException as e:
+            if verbose:
+                print(f"Error: {e}")
+        return False
+
+    @staticmethod
     def _extract_text(page_html : str, with_links : bool = False) -> str:
         SoupType = LinkSoup if with_links else BeautifulSoup
         soup = SoupType(page_html, 'html.parser')
@@ -66,7 +73,6 @@ class SiteVisitor:
         chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
         return '\n'.join(chunk for chunk in chunks if chunk)
 
-
     def _fetch_site_html(self, url: str) -> str:
         def get_website_html():
             if self.last_url != url:
@@ -76,18 +82,6 @@ class SiteVisitor:
         content = func_timeout(timeout=SiteVisitor.max_site_loading_time, func=get_website_html)
         self.last_url = url
         return content
-
-
-    @staticmethod
-    def site_exists(url : str, verbose : bool = False) -> bool:
-        try:
-            requests.get(url, timeout=10)
-            return True
-        except requests.exceptions.RequestException as e:
-            if verbose:
-                print(f"Error: {e}")
-        return False
-
 
     def __del__(self):
         self.quit()
