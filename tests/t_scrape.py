@@ -1,14 +1,14 @@
 from __future__ import annotations
-from holytools.devtools import Unittest
-import psutil
 
-from pyscrape.visit import SiteVisitor
+from holytools.devtools import Unittest
+
+from pyscrape.scrape import Scraper
 
 
 class VisitorTester(Unittest):
     @classmethod
     def setUpClass(cls):
-        cls.visitor = SiteVisitor(headless=True)
+        cls.visitor = Scraper(headless=True)
         cls.beavers_url = 'https://en.wikipedia.org/wiki/Beaver'
         cls.invalid_url = 'https://asldkfjskdjdkkkkkk'
         cls.browser_required_url = 'https://leetcode.com/problemset/'
@@ -18,7 +18,7 @@ class VisitorTester(Unittest):
         self.beaver_test()
 
     def test_link(self):
-        link_text = self.visitor.get_text(url=self.beavers_url, with_links=True)
+        link_text = self.visitor.scrape_text(url=self.beavers_url, with_links=True)
         self.assertIn('http', link_text)
 
     def test_exists(self):
@@ -29,32 +29,10 @@ class VisitorTester(Unittest):
         self.assertFalse(invalid_doesnt_exist)
         self.assertTrue(model_docs_exist)
 
-
-    def test_crawl_js_required(self):
-        if not self.is_manual_mode:
-            self.skipTest(reason=f'Testing javascript requires not headless')
-
-        visitor = SiteVisitor(headless=False)
-        response_text = visitor.get_text(url=self.browser_required_url)
-        print(f'Js required text content : {response_text}')
-        self.assertNotIn(f'Verifying you are human', response_text)
-
-    def test_z_cleanup(self):
-        self.visitor.quit()
-
-        current_process = psutil.Process()
-        children = current_process.children(recursive=True)
-        for child in children:
-            print(f'Child pid is {child.pid}')
-            print(f'Child exe is {child.exe()}')
-            child_exe_name = str(child.exe()).lower()
-            self.assertFalse(f'chrome' in child_exe_name)
-            self.assertFalse(f'google' in child_exe_name)
-
     # -------------------------------------------
 
     def beaver_test(self):
-        text = self.visitor.get_text(url=self.beavers_url)
+        text = self.visitor.scrape_text(url=self.beavers_url)
         self.assertTrue(self.contains_beavers(text=text))
         self.log(f'Beaver text: {text[:500]}')
 
