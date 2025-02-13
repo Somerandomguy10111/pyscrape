@@ -1,4 +1,5 @@
 import undetected_chromedriver as uc
+from bs4 import BeautifulSoup
 from markdownify import markdownify
 from selenium.webdriver import Keys
 from selenium.webdriver.chrome.options import Options
@@ -32,24 +33,13 @@ class BrowserEmulator:
         return '\n'.join(cleaned)
 
     def get_html(self, only_displayed : bool = True) -> str:
-        def is_hidden(element):
-            return element.get_attribute('aria-hidden') == 'true'
-
+        html_code = self.driver.page_source
         if only_displayed:
-            html_code = ''
-            elements = self.driver.find_elements(By.XPATH, "//*")
-            result = self.driver.execute_script("""
-                var result = [];
-                var all = document.getElementsByTagName('*');
-                for (var i = 0, max = all.length; i < max; i++) {
-                    result.push({'tag': all[i].tagName, 'class': all[i].getAttribute('class')});
-                }
-                return result;
-            """)
-            for e in elements:
-                html_code += e.get_attribute('outerHTML')
-        else:
-            html_code = self.driver.page_source
+            soup = BeautifulSoup(html_code, "html.parser")
+            for element in soup.find_all(attrs={"aria-hidden": "true"}):
+                element.decompose()
+            return str(soup)
+
         return html_code
 
     def __del__(self):
