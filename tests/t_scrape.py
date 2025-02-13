@@ -8,7 +8,7 @@ from pyscrape.scrape import Scraper
 class VisitorTester(Unittest):
     @classmethod
     def setUpClass(cls):
-        cls.visitor = Scraper(headless=True)
+        cls.visitor = Scraper()
         cls.beavers_url = 'https://en.wikipedia.org/wiki/Beaver'
         cls.invalid_url = 'https://asldkfjskdjdkkkkkk'
         cls.browser_required_url = 'https://leetcode.com/problemset/'

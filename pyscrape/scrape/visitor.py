@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-import logging
 import re
 
 import requests
-from bs4 import BeautifulSoup, NavigableString, Tag, PageElement
+# noinspection PyProtectedMember
+from bs4 import BeautifulSoup, Tag, PageElement, NavigableString
 
 
 # ---------------------------------------------------------

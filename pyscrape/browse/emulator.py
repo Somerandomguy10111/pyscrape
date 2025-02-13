@@ -15,6 +15,7 @@ class BrowserEmulator:
     def __init__(self):
         chrome_options = Options()
         chrome_options.add_argument(f"--load-extension={os.path.dirname(__file__)}/cookie_blocker")
+        chrome_options.add_argument(f'--headless')
         self.driver = uc.Chrome(options=chrome_options)
 
     def visit(self, url : str):
