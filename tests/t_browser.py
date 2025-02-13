@@ -5,6 +5,10 @@ from holytools.devtools import Unittest
 from pyscrape.browse import BrowserEmulator
 
 
+# TODO: There is a known issue with undetected_chromedriver leaving spawned process alive after driver.quit()
+# TODO: (https://github.com/ultrafunkamsterdam/undetected-chromedriver/issues/1270)
+# TODO: As long as this issue is not addressed, expect a resource warning
+
 # -------------------------------------------------
 
 class TestBrowserEmulator(Unittest):
@@ -26,6 +30,8 @@ class TestBrowserEmulator(Unittest):
         cls.emulator.driver.close()
         cls.emulator.driver.quit()
 
+        print(f'done')
+
 
 if __name__ == "__main__":
-    TestBrowserEmulator.execute_all(trace_resourcewarning=True)
+    TestBrowserEmulator.execute_all()

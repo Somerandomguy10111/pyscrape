@@ -8,7 +8,6 @@ from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
-
 # -----------------------------------------------
 
 class BrowserEmulator:
@@ -17,7 +16,7 @@ class BrowserEmulator:
         chrome_options.add_argument(f"--load-extension={os.path.dirname(__file__)}/cookie_blocker")
         if headless:
             chrome_options.add_argument(f'--headless')
-        self.driver = uc.Chrome(options=chrome_options, use_subprocess=False)
+        self.driver = uc.Chrome(options=chrome_options)
 
     def visit(self, url : str, load_delay : float = 2):
         self.driver.get(url)
@@ -47,7 +46,7 @@ class BrowserEmulator:
 
         return html_code
 
-    def get_textinputs(self, visible_only : bool) -> list[WebElement]:
+    def get_textinputs(self, visible_only : bool = True) -> list[WebElement]:
         text_inputs = self.driver.find_elements(By.CSS_SELECTOR, 'input[type="text"]')
         if visible_only:
             text_inputs = [input_box for input_box in text_inputs if input_box.is_displayed()]
