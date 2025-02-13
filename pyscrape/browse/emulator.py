@@ -1,5 +1,6 @@
 import os.path
 import time
+from typing import Optional
 
 import undetected_chromedriver as uc
 from bs4 import BeautifulSoup
@@ -30,11 +31,13 @@ class BrowserEmulator:
     # ------------------------------------
     # get
 
-    def get_markdown(self) -> str:
+    def get_markdown(self, max_width : Optional[int] = None) -> str:
         md = markdownify(self.get_html())
         lines = md.split('\n')
-        cleaned = [line for line in lines if line.strip()]
-        return '\n'.join(cleaned)
+        lines = [line for line in lines if line.strip()]
+        if max_width:
+            lines = self.get_wrapped(lines, max_width)
+        return '\n'.join(lines)
 
     def get_html(self, only_displayed : bool = True) -> str:
         html_code = self.driver.page_source
@@ -56,20 +59,21 @@ class BrowserEmulator:
         self.driver.quit()
 
 
-# Recognizing (visible) links
-# links = driver.find_elements(By.TAG_NAME, 'a')
-# visible_links = [link for link in links if link.is_displayed()]
-# invisble_links = [link for link in links if not link.is_displayed()]
-#
-# print(f'- Visible links')
-# for link in visible_links:
-#     print(link.get_attribute('href'))
-#
-# print(f'- Invisible links')
-# for link in invisble_links:
-#     print(link.get_attribute('href'))
+    @staticmethod
+    def get_wrapped(lines : list[str], max_width : int) -> list[str]:
 
-# Recognizing and interacting with (visible) text inputs
+        compacted_lines = []
+        for line in lines:
+            if len(line) <= max_width:
+                compacted_lines.append(line)
+            else:
+                no_lines = len(line) // max_width + 1 if len(line) % max_width > 0 else 0
+                remain = line
+                for _ in range(no_lines):
+                    compacted_lines.append(remain[:max_width])
+                    remain = remain[max_width:]
+
+        return compacted_lines
 
 
 
@@ -81,4 +85,4 @@ if __name__ == "__main__":
 
     be = BrowserEmulator()
     be.visit(url=w1)
-    print(be.get_markdown())
+    print(be.get_markdown(max_width=200))
