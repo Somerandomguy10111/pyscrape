@@ -1,3 +1,5 @@
+import os.path
+
 import undetected_chromedriver as uc
 from bs4 import BeautifulSoup
 from markdownify import markdownify
@@ -11,7 +13,7 @@ class BrowserEmulator:
 
     def __init__(self):
         chrome_options = Options()
-        chrome_options.add_argument("--load-extension=/home/daniel/.config/google-chrome/Default/Extensions/edibdbjcniadpccecjdfdjjppcpchdlm/1.1.4_0")
+        chrome_options.add_argument(f"--load-extension={os.path.dirname(__file__)}/cookie_blocker")
         self.driver = uc.Chrome(options=chrome_options)
 
     def visit(self, url : str):
@@ -72,5 +74,5 @@ if __name__ == "__main__":
     w4 = 'https://stackoverflow.com/questions/16731115/how-to-debug-a-python-segmentation-fault'
 
     be = BrowserEmulator()
-    be.visit(url=w4)
+    be.visit(url=w3)
     print(be.get_markdown())
