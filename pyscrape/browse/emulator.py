@@ -1,10 +1,10 @@
 import os.path
+import time
 
 import undetected_chromedriver as uc
 from bs4 import BeautifulSoup
 from markdownify import markdownify
 from selenium.webdriver import Keys
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 
@@ -12,14 +12,16 @@ from selenium.webdriver.remote.webelement import WebElement
 # -----------------------------------------------
 
 class BrowserEmulator:
-    def __init__(self):
-        chrome_options = Options()
+    def __init__(self, headless : bool = True):
+        chrome_options = uc.ChromeOptions()
         chrome_options.add_argument(f"--load-extension={os.path.dirname(__file__)}/cookie_blocker")
-        chrome_options.add_argument(f'--headless')
+        if headless:
+            chrome_options.add_argument(f'--headless')
         self.driver = uc.Chrome(options=chrome_options)
 
-    def visit(self, url : str):
+    def visit(self, url : str, load_delay : float = 2):
         self.driver.get(url)
+        time.sleep(load_delay)
 
     def type(self, text_box_idx : int, content : str):
         visible_text_inputs = self.get_textinputs(visible_only=True)
