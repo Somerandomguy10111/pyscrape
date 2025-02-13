@@ -10,5 +10,8 @@ dependencies = ['selenium','beautifulsoup4','func_timeout', 'requests',
 [tool.setuptools.packages.find]
 include = ["pyscrape*"]
 
+[tool.deptry.per_rule_ignores]
+DEP002 = ["setuptools"]
+
 [project.optional-dependencies]
 test = ["holytools"]
