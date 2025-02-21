@@ -7,6 +7,9 @@ readme = "readme.md"
 dependencies = ['selenium','beautifulsoup4','func_timeout', 'requests',
     'setuptools', 'undetected_chromedriver','markdownify']
 
+[tool.setuptools.package-data]
+"pyscrape.browse.cookie_blocker" = ["*", '*/*', '*/*/*']
+
 [tool.setuptools.packages.find]
 include = ["pyscrape*"]
 

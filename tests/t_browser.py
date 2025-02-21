@@ -25,6 +25,12 @@ class TestBrowserEmulator(Unittest):
         self.assertTrue('Models' in html_code)
         self.assertTrue('Docs' in html_code)
 
+    def test_cookie_blocker(self):
+        test_url = 'https://www.youtube.com/'
+        self.emulator.visit(url=test_url)
+        site_content = self.emulator.get_html()
+        self.assertFalse(f'Before you continue to YouTube' in site_content)
+
     @classmethod
     def tearDownClass(cls):
         cls.emulator.driver.close()

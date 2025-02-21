@@ -28,6 +28,12 @@ class BrowserEmulator:
         target_box = visible_text_inputs[text_box_idx]
         target_box.send_keys(content + Keys.RETURN)
 
+    def __del__(self):
+        self.quit()
+
+    def quit(self):
+        self.driver.quit()
+
     # ------------------------------------
     # get
 
@@ -54,9 +60,6 @@ class BrowserEmulator:
         if visible_only:
             text_inputs = [input_box for input_box in text_inputs if input_box.is_displayed()]
         return text_inputs
-
-    def __del__(self):
-        self.driver.quit()
 
 
     @staticmethod
