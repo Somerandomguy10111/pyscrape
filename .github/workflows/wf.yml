@@ -9,8 +9,16 @@ jobs:
   ToxTests:
     runs-on: ubuntu-latest
     steps:
-      - uses: Somerandomguy10111/devops/actions/basepy@main
-      - uses: Somerandomguy10111/devops/actions/toxtests@main
+      - name: BasePy
+        uses: Somerandomguy10111/devops/actions/basepy@main
+      - name: Install Chrome
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+      - name: Run tox tests
+        uses: Somerandomguy10111/devops/actions/toxtests@main
   Dependencies:
     runs-on: ubuntu-latest
     steps:
