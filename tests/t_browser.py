@@ -1,3 +1,4 @@
+import os
 import time
 
 from holytools.devtools import Unittest
@@ -14,12 +15,15 @@ from pyscrape.browse import BrowserEmulator
 class TestBrowserEmulator(Unittest):
     @classmethod
     def setUpClass(cls):
-        cls.emulator = BrowserEmulator()
+        cls.run_in_headless : bool = not cls.has_graphic_capabilities()
+        cls.emulator = BrowserEmulator(headless=cls.run_in_headless)
 
     def test_bypass_bot_detection(self):
+        if self.run_in_headless:
+            self.skipTest('Bot detection bypass requires graphic capabilities')
+
         test_url = 'https://platform.openai.com/docs/libraries#community-libraries'
         self.emulator.visit(url=test_url)
-
         html_code = self.emulator.get_html()
 
         self.assertTrue('Models' in html_code)
@@ -52,6 +56,14 @@ class TestBrowserEmulator(Unittest):
 
         print(f'done')
 
+    @staticmethod
+    def has_graphic_capabilities() -> bool:
+        try:
+            return True
+        except:
+            return False
 
 if __name__ == "__main__":
-    TestBrowserEmulator.execute_all()
+    # TestBrowserEmulator.execute_all()
+
+    print(TestBrowserEmulator.has_graphic_capabilities())
