@@ -14,7 +14,7 @@ from pyscrape.browse import BrowserEmulator
 class TestBrowserEmulator(Unittest):
     @classmethod
     def setUpClass(cls):
-        cls.emulator = BrowserEmulator(headless=False)
+        cls.emulator = BrowserEmulator()
 
     def test_bypass_bot_detection(self):
         test_url = 'https://platform.openai.com/docs/libraries#community-libraries'
