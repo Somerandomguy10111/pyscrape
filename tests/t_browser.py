@@ -59,6 +59,7 @@ class TestBrowserEmulator(Unittest):
     @staticmethod
     def has_graphic_capabilities() -> bool:
         try:
+            _ = os.environ['DISPLAY']
             return True
         except:
             return False
