@@ -65,6 +65,4 @@ class TestBrowserEmulator(Unittest):
             return False
 
 if __name__ == "__main__":
-    # TestBrowserEmulator.execute_all()
-
-    print(TestBrowserEmulator.has_graphic_capabilities())
+    TestBrowserEmulator.execute_all()
