@@ -8,6 +8,7 @@ from markdownify import markdownify
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
+from webdriver_manager.chrome import ChromeDriverManager
 
 # -----------------------------------------------
 
@@ -15,9 +16,12 @@ class BrowserEmulator:
     def __init__(self, headless : bool = True):
         chrome_options = uc.ChromeOptions()
         chrome_options.add_argument(f"--load-extension={os.path.dirname(__file__)}/cookie_blocker")
+
+
+        driver_manager = ChromeDriverManager()
         if headless:
             chrome_options.add_argument(f'--headless')
-        self.driver = uc.Chrome(options=chrome_options)
+        self.driver = uc.Chrome(driver_executable_path=driver_manager.install(), options=chrome_options)
 
     def visit(self, url : str, load_delay : float = 2):
         self.driver.get(url)
@@ -36,6 +40,9 @@ class BrowserEmulator:
 
     # ------------------------------------
     # get
+
+    def get_url(self) -> str:
+        return self.driver.current_url
 
     def get_markdown(self, max_width : Optional[int] = None) -> str:
         md = markdownify(self.get_html())
