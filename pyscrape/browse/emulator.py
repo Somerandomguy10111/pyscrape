@@ -9,14 +9,14 @@ from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from webdriver_manager.chrome import ChromeDriverManager
-
+import atexit
 # -----------------------------------------------
 
 class BrowserEmulator:
     def __init__(self, headless : bool = True):
         chrome_options = uc.ChromeOptions()
         chrome_options.add_argument(f"--load-extension={os.path.dirname(__file__)}/cookie_blocker")
-
+        atexit.register(self.quit)
 
         driver_manager = ChromeDriverManager()
         if headless:
@@ -31,9 +31,6 @@ class BrowserEmulator:
         visible_text_inputs = self.get_textinputs(visible_only=True)
         target_box = visible_text_inputs[text_box_idx]
         target_box.send_keys(content + Keys.RETURN)
-
-    def __del__(self):
-        self.quit()
 
     def quit(self):
         self.driver.quit()
