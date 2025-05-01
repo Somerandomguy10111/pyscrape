@@ -93,6 +93,6 @@ if __name__ == "__main__":
     w3 = 'https://www.youtube.com/'
     w4 = 'https://stackoverflow.com/questions/16731115/how-to-debug-a-python-segmentation-fault'
 
-    be = BrowserEmulator()
+    be = BrowserEmulator(headless=False)
     be.visit(url=w1)
     print(be.get_markdown(max_width=200))

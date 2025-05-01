@@ -11,8 +11,6 @@ jobs:
     steps:
       - name: BasePy
         uses: Somerandomguy10111/devops/actions/basepy@main
-      - name: Install Chrome
-        uses: Somerandomguy10111/devops/actions/chrome@main
       - name: Run tox tests
         uses: Somerandomguy10111/devops/actions/toxtests@main
   Dependencies:
